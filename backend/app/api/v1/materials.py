@@ -19,14 +19,9 @@ from app.schemas.material import MaterialOut, ConceptOut
 router = APIRouter(prefix="/projects/{project_id}", tags=["Materials & Knowledge"])
 
 def dispatch_ingestion(material_id: UUID, background_tasks: BackgroundTasks) -> None:
-    """Dispatches processing to Celery worker with resilient fallback."""
-    try:
-        from app.workers.tasks import process_material_task
-        process_material_task.delay(str(material_id))
-    except Exception as e:
-        print(f"[Ingestion] Celery dispatch unavailable ({e}), using FastAPI background task.", flush=True)
-        from app.workers.tasks import _async_process_material
-        background_tasks.add_task(_async_process_material, material_id)
+    """Dispatches processing directly via FastAPI async background task for reliable, in-process execution."""
+    from app.workers.tasks import _async_process_material
+    background_tasks.add_task(_async_process_material, material_id)
 
 @router.get("/materials", response_model=list[MaterialOut])
 async def list_materials(
@@ -38,7 +33,27 @@ async def list_materials(
     result = await db.execute(stmt)
     materials = result.scalars().all()
 
+    # Auto-process any materials currently waiting in QUEUED
+    for m in materials:
+        if m.status == MaterialStatus.QUEUED:
+            dispatch_ingestion(m.id, background_tasks)
+
     return materials
+
+@router.post("/materials/{material_id}/process", response_model=MaterialOut)
+@router.get("/materials/{material_id}/process", response_model=MaterialOut)
+async def process_material_now(
+    material_id: UUID,
+    project: Annotated[Project, Depends(verify_project_access)],
+    background_tasks: BackgroundTasks,
+    db: Annotated[AsyncSession, Depends(get_db)]
+):
+    stmt = select(Material).where(Material.id == material_id, Material.project_id == project.id)
+    material = (await db.execute(stmt)).scalar_one_or_none()
+    if not material:
+        raise HTTPException(status_code=404, detail="Material not found")
+    dispatch_ingestion(material.id, background_tasks)
+    return material
 
 @router.get("/materials/{material_id}/status", response_model=MaterialOut)
 async def get_material_status(
