@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Study Companion - System Architecture Documentation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  @page {
+    size: A4;
+    margin: 20mm 15mm 20mm 15mm;
+    @bottom-right {
+      content: counter(page);
+    }
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #1e293b;
+    line-height: 1.6;
+    font-size: 10.5pt;
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+  }
+
+  /* Header Banner */
+  .header-banner {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0369a1 100%);
+    color: #ffffff;
+    padding: 28px 32px;
+    border-radius: 12px;
+    margin-bottom: 28px;
+    border-left: 6px solid #38bdf8;
+  }
+
+  .header-banner h1 {
+    margin: 0 0 8px 0;
+    font-size: 22pt;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+
+  .header-banner .subtitle {
+    margin: 0 0 16px 0;
+    font-size: 12pt;
+    color: #94a3b8;
+    font-weight: 400;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+  }
+
+  .meta-item {
+    font-size: 8.5pt;
+  }
+
+  .meta-item .label {
+    color: #94a3b8;
+    text-transform: uppercase;
+    font-size: 7.5pt;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .meta-item .value {
+    color: #f1f5f9;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+
+  /* Typography */
+  h2 {
+    color: #0f172a;
+    font-size: 14.5pt;
+    font-weight: 700;
+    margin-top: 28px;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #e2e8f0;
+    page-break-after: avoid;
+  }
+
+  h3 {
+    color: #1e3a8a;
+    font-size: 12pt;
+    font-weight: 600;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    page-break-after: avoid;
+  }
+
+  h4 {
+    color: #334155;
+    font-size: 10.5pt;
+    font-weight: 600;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    page-break-after: avoid;
+  }
+
+  p {
+    margin: 0 0 10px 0;
+    text-align: justify;
+  }
+
+  /* Architecture Box / Diagrams */
+  .diagram-box {
+    background: #0f172a;
+    color: #e2e8f0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8pt;
+    padding: 16px 20px;
+    border-radius: 8px;
+    line-height: 1.4;
+    overflow-x: auto;
+    margin: 14px 0 18px 0;
+    border: 1px solid #334155;
+    page-break-inside: avoid;
+    white-space: pre;
+  }
+
+  /* Badges & Highlights */
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    font-size: 7.5pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .badge-blue { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+  .badge-green { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+  .badge-purple { background: #f3e8ff; color: #7e22ce; border: 1px solid #e9d5ff; }
+
+  /* Callout Card */
+  .callout {
+    background: #f8fafc;
+    border-left: 4px solid #2563eb;
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    margin: 14px 0;
+    font-size: 9.5pt;
+    border-top: 1px solid #e2e8f0;
+    border-right: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+    page-break-inside: avoid;
+  }
+
+  .callout-title {
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-bottom: 4px;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0 18px 0;
+    font-size: 9pt;
+    page-break-inside: avoid;
+  }
+
+  th {
+    background: #1e293b;
+    color: #ffffff;
+    padding: 8px 12px;
+    font-weight: 600;
+    text-align: left;
+    border: 1px solid #334155;
+  }
+
+  td {
+    padding: 7px 12px;
+    border: 1px solid #e2e8f0;
+    color: #334155;
+  }
+
+  tr:nth-child(even) td {
+    background: #f8fafc;
+  }
+
+  /* Flow Steps */
+  .step-list {
+    margin: 10px 0 16px 0;
+    padding-left: 20px;
+  }
+
+  .step-list li {
+    margin-bottom: 6px;
+  }
+
+  .page-break {
+    page-break-before: always;
+  }
+
+  .footer-note {
+    margin-top: 30px;
+    padding-top: 12px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 8pt;
+    color: #64748b;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<!-- Header Banner -->
+<div class="header-banner">
+  <h1>AI Study Companion</h1>
+  <div class="subtitle">Enterprise Architecture, System Design & Technical Specification</div>
+  <div class="meta-grid">
+    <div class="meta-item">
+      <div class="label">Document Version</div>
+      <div class="value">v3.0.0 Production</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Deployment Target</div>
+      <div class="value">Render (API) + Vercel (UI)</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Vector Database</div>
+      <div class="value">PostgreSQL 16 + pgvector</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Foundation Model</div>
+      <div class="value">Gemini 2.5 Flash</div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 1 -->
+<h2>1. Executive Summary</h2>
+<p>
+The <strong>AI Study Companion</strong> is a high-performance, strictly-grounded educational intelligence platform built to solve the core limitations of standard conversational AI in academic and technical domains: <em>hallucinations</em>, <em>lack of citations</em>, and <em>absence of structured knowledge retention</em>.
+</p>
+<p>
+The platform implements an end-to-end learning loop: students ingest academic PDFs into private, cryptographically isolated project spaces; the system constructs high-density semantic vector representations; students interact with a strictly grounded AI Tutor backed by page-level citations; adaptive quizzes calibrate cognitive mastery across Bloom’s Revised Taxonomy; and an algorithmic synthesis engine generates structured, printable exam revision cheat sheets.
+</p>
+
+<div class="callout">
+  <div class="callout-title">Core Architectural Tenets</div>
+  <strong>1. Zero-Hallucination Grounding:</strong> Every tutor response is constrained to retrieved document chunks with mandatory page and quotation anchors.<br>
+  <strong>2. Multi-Tenant Project Isolation:</strong> Strict relational and vector boundary isolation prevents data leakage across project workspaces.<br>
+  <strong>3. Cognitive Adaptation:</strong> Mastery scores evolve dynamically using Bayesian updates, categorizing concepts into <em>Improving</em>, <em>Stable</em>, and <em>Requiring Attention</em>.<br>
+  <strong>4. Production Observability:</strong> Full telemetry tracing every prompt token, completion token, latency percentile, and estimated API cost.
+</div>
+
+<!-- Section 2 -->
+<h2>2. High-Level System Architecture</h2>
+<p>
+The platform is architected as a modern, decoupled 3-Tier distributed cloud system:
+</p>
+
+<div class="diagram-box">
++-----------------------------------------------------------------------------------------+
+|                                    PRESENTATION TIER                                    |
+|   Next.js 14 App Router | React 18 | Tailwind CSS | Recharts | Lucide Icons             |
+|   Hosted on Vercel Global Edge Network (HTTP/2, SSL/TLS, CDN Caching)                  |
++-----------------------------------------------------------------------------------------+
+                                             │
+                                     RESTful HTTPS / JSON
+                                             ▼
++-----------------------------------------------------------------------------------------+
+|                                APPLICATION & SERVICE TIER                               |
+|   FastAPI (Python 3.11 Async) | Uvicorn ASGI Server | Pydantic v2 | Background Tasks   |
+|   Hosted on Render Cloud Web Service (Linux Container)                                  |
+|                                                                                         |
+|   ┌───────────────────────────┐  ┌───────────────────────────┐  ┌───────────────────┐   |
+|   │ Document Ingestion Engine │  │ Hybrid Retrieval RAG      │  │ Adaptive Tutor    │   |
+|   │ (PyMuPDF + Chunking)      │  │ (pgvector Cosine Search)  │  │ & Citations       │   |
+|   └───────────────────────────┘  └───────────────────────────┘  └───────────────────┘   |
+|   ┌───────────────────────────┐  ┌───────────────────────────┐  ┌───────────────────┐   |
+|   │ Cognitive Mastery Engine  │  │ Exam Cheat Sheet Generator│  │ AI Observability  │   |
+|   │ (Bloom's Taxonomy Calibration) (Structured 4-Pillar Synth)│ (Token & Cost Trace)│   |
+|   └───────────────────────────┘  └───────────────────────────┘  └───────────────────┘   |
++-----------------------------------------------------------------------------------------+
+                    │                                                 │
+      Asyncpg Native Driver (Connection Pool)              Google Gemini API (HTTPS)
+                    ▼                                                 ▼
++----------------------------------------+       +----------------------------------------+
+|            PERSISTENCE TIER            |       |          FOUNDATION AI ENGINE          |
+|  PostgreSQL 16 + pgvector Extension    |       |  Google Gemini 2.5 Flash API           |
+|  - HNSW Vector Cosine Index (384-dim)  |       |  - Low Latency (&lt;1.2s First Token)     |
+|  - Relational Schema & Cascade Deletes |       |  - Strict Structured JSON Outputs      |
+|  - Audit Trails & Telemetry Logs       |       |  - BAAI/bge-small-en-v1.5 Embeddings   |
++----------------------------------------+       +----------------------------------------+
+</div>
+
+<div class="page-break"></div>
+
+<!-- Section 3 -->
+<h2>3. Detailed Subsystem Workflows & Data Flows</h2>
+
+<h3>3.1 Document Ingestion & Dense Vector Indexing Pipeline</h3>
+<p>
+The ingestion subsystem transforms raw unstructured PDF files into searchable, grounded vector embeddings through a deterministic 5-stage pipeline:
+</p>
+
+<div class="diagram-box">
+[Upload PDF] ──► [SHA-256 Checksum] ──► [PyMuPDF Page Extraction]
+                                                  │
+                                                  ▼
+[pgvector Bulk Upsert] ◄── [BGE 384-dim Vectors] ◄── [Sliding-Window Semantic Chunking]
+        │
+        ├─ Unique Constraint: (material_id, chunk_index)
+        ├─ HNSW Cosine Distance Index: vector_cosine_ops (m=16, ef=64)
+        └─ Concept Extraction ──► Auto-Seeds Initial Knowledge Graph Nodes ──► Status: READY
+</div>
+
+<ul class="step-list">
+  <li><strong>Stage 1 (Extraction):</strong> PyMuPDF extracts raw text per page while recording structural metadata (page number, bounding dimensions, character counts).</li>
+  <li><strong>Stage 2 (Semantic Chunking):</strong> Implements sliding-window chunking targeting 400 tokens (~1600 chars) with a 50-token overlap, preserving semantic context across page boundaries. Each chunk is tagged with its source section header.</li>
+  <li><strong>Stage 3 (Embedding Generation):</strong> Utilizes FastEmbed with <code>BAAI/bge-small-en-v1.5</code> to produce high-density 384-dimensional dense vectors.</li>
+  <li><strong>Stage 4 (Vector Indexing):</strong> Chunks and embeddings are bulk-inserted into PostgreSQL with an HNSW index, guaranteeing sub-50ms nearest neighbor queries.</li>
+  <li><strong>Stage 5 (Concept Extraction):</strong> Automatically generates initial high-yield conceptual anchors for the project knowledge graph.</li>
+</ul>
+
+<h3>3.2 Grounded AI Tutor & Citation Flow</h3>
+<p>
+The Tutor subsystem eliminates hallucinations by enforcing strict evidence retrieval prior to prompt injection:
+</p>
+
+<div class="diagram-box">
+[Student Query] ──► [384-dim Query Embedding] ──► [Project-Isolated pgvector Cosine Search]
+                                                                │
+                                                                ▼
+[Response to Student] ◄── [Gemini 2.5 Flash Generation] ◄── [Grounded Prompt Assembly]
+        │                                                       │
+        └─ Includes Verified Citations:                         └─ Enforces: "Cite exact page #
+           [DocName.pdf, Page 14, "Quote"]                         and quote verbatim."
+</div>
+
+<h3>3.3 Adaptive Cognitive Mastery & Knowledge Tracing</h3>
+<p>
+The assessment engine monitors student understanding dynamically across quizzes:
+</p>
+<ul class="step-list">
+  <li><strong>Bloom's Taxonomy Calibration:</strong> Questions span four levels: <em>Remembering/Understanding</em> (0.6 weight), <em>Application</em> (0.8 weight), and <em>Analysis/Evaluation</em> (1.0 weight).</li>
+  <li><strong>Bayesian Update Formula:</strong> Upon correct answer: <code>M_new = M_old + (100 - M_old) &times; 0.15 &times; W_diff</code>. Upon mistake: <code>M_new = M_old - (M_old &times; 0.20 &times; W_diff)</code>.</li>
+  <li><strong>Growth Trend States:</strong> Automatically classified into <code>IMPROVING</code> (upward velocity), <code>STABLE</code> (consistent mastery &gt;65%), and <code>REQUIRING_ATTENTION</code> (&lt;50% or consecutive errors).</li>
+</ul>
+
+<h3>3.4 Exam Revision & Cheat Sheet Generator</h3>
+<p>
+Aggregates high-yield document chunks and conceptual masteries into a structured four-pillar revision synthesis:
+</p>
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Pillar</th>
+      <th style="width: 40%;">Core Purpose</th>
+      <th style="width: 35%;">Engineering Format</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>1. Core Architectural Summary</strong></td>
+      <td>High-level executive synthesis of the domain</td>
+      <td>100-150 word precise executive summary</td>
+    </tr>
+    <tr>
+      <td><strong>2. Formulas & Definitions</strong></td>
+      <td>Formal mathematical equations, algorithms, principles</td>
+      <td>Formula, formal name, definition, operational context</td>
+    </tr>
+    <tr>
+      <td><strong>3. Memory Anchors</strong></td>
+      <td>Cognitive mnemonics, key contrasts, analogies</td>
+      <td>Mnemonics, conceptual distinctions (X vs Y)</td>
+    </tr>
+    <tr>
+      <td><strong>4. Common Pitfalls & Traps</strong></td>
+      <td>Frequent exam mistakes and edge-case traps</td>
+      <td>Misconception, correct reality, prevention rule</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<!-- Section 4 -->
+<h2>4. Database Relational Schema</h2>
+<p>
+The database schema is constructed with PostgreSQL 16, utilizing strict foreign key cascades and pgvector vector columns:
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Entity Table</th>
+      <th>Primary Attributes</th>
+      <th>Constraints & Indexes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>users</code></td>
+      <td>id, email, password_hash, full_name, role</td>
+      <td>UNIQUE(email), Role ENUM (Admin, Learner, Viewer)</td>
+    </tr>
+    <tr>
+      <td><code>spaces</code></td>
+      <td>id, user_id, name, description, visual_tag</td>
+      <td>FK(user_id) REFERENCES users(id) ON DELETE CASCADE</td>
+    </tr>
+    <tr>
+      <td><code>projects</code></td>
+      <td>id, space_id, user_id, name, learning_goal</td>
+      <td>FK(space_id) REFERENCES spaces(id) ON DELETE CASCADE</td>
+    </tr>
+    <tr>
+      <td><code>materials</code></td>
+      <td>id, project_id, filename, file_hash, status, stage</td>
+      <td>FK(project_id), INDEX(file_hash), Stage ENUM tracking</td>
+    </tr>
+    <tr>
+      <td><code>document_chunks</code></td>
+      <td>id, material_id, project_id, page_number, chunk_index, embedding</td>
+      <td>UNIQUE(material_id, chunk_index), HNSW(embedding vector_cosine_ops)</td>
+    </tr>
+    <tr>
+      <td><code>concepts</code></td>
+      <td>id, project_id, material_id, name, importance_score</td>
+      <td>FK(project_id), INDEX(project_id)</td>
+    </tr>
+    <tr>
+      <td><code>concept_masteries</code></td>
+      <td>id, project_id, concept_id, user_id, mastery_score, trend_state</td>
+      <td>UNIQUE(project_id, concept_id, user_id), Trend ENUM</td>
+    </tr>
+    <tr>
+      <td><code>quizzes</code> &amp; <code>questions</code></td>
+      <td>id, project_id, difficulty, taxonomy_level, expected_concepts</td>
+      <td>FK(project_id), JSON metadata fields</td>
+    </tr>
+    <tr>
+      <td><code>cheat_sheets</code></td>
+      <td>id, project_id, user_id, title, content (JSON), raw_markdown</td>
+      <td>FK(project_id), JSON structured schema</td>
+    </tr>
+    <tr>
+      <td><code>ai_usage_logs</code></td>
+      <td>id, request_id, operation, prompt_tokens, completion_tokens, cost</td>
+      <td>INDEX(request_id), INDEX(operation), INDEX(created_at)</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Section 5 -->
+<h2>5. Security, Isolation & Multi-Tenancy</h2>
+<ul class="step-list">
+  <li><strong>Strict Isolation Proof:</strong> Vector retrieval is mathematically bounded by <code>WHERE project_id = :project_id</code>. Automated unit test <code>test_project_a_never_leaks_project_b_chunks</code> validates in CI that higher-similarity vectors belonging to other projects are never returned.</li>
+  <li><strong>Authentication:</strong> HMAC-SHA256 (HS256) JWT tokens with direct <code>bcrypt</code> password hashing and salted digests.</li>
+  <li><strong>Cloud URL Normalization:</strong> The engine automatically adapts cloud-injected PostgreSQL connection strings (Render/Neon/Supabase) to native asynchronous <code>postgresql+asyncpg://</code> pools.</li>
+</ul>
+
+<!-- Section 6 -->
+<h2>6. CI/CD & Deployment Architecture</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>Technology</th>
+      <th>Host Platform</th>
+      <th>Key Production Configuration</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Frontend</strong></td>
+      <td>Next.js 14 Standalone</td>
+      <td>Vercel Edge Network</td>
+      <td>Global CDN, automatic route optimization, responsive UI</td>
+    </tr>
+    <tr>
+      <td><strong>Backend</strong></td>
+      <td>FastAPI + Uvicorn ASGI</td>
+      <td>Render Web Service</td>
+      <td>Docker container, 1 worker (optimized for 512MB RAM tier)</td>
+    </tr>
+    <tr>
+      <td><strong>Database</strong></td>
+      <td>PostgreSQL 16 + pgvector</td>
+      <td>Render Managed DB</td>
+      <td>Asyncpg connection pooling (pool=10, overflow=5)</td>
+    </tr>
+    <tr>
+      <td><strong>CI Pipeline</strong></td>
+      <td>GitHub Actions</td>
+      <td>GitHub Hosted Runners</td>
+      <td>Flake8 linting, Pytest (33/33 passed), TypeScript typecheck</td>
+    </tr>
+    <tr>
+      <td><strong>CD Pipeline</strong></td>
+      <td>Docker Buildx</td>
+      <td>GitHub Packages (GHCR)</td>
+      <td>Multi-stage Alpine Linux Docker builds</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="footer-note">
+  <strong>AI Study Companion</strong> &bull; Complete System Architecture &amp; Engineering Specification &bull; Published September 2026
+</div>
+
+</body>
+</html>
