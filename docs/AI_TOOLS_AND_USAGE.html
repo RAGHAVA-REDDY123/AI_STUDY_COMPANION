@@ -8,10 +8,7 @@
 
   @page {
     size: A4;
-    margin: 20mm 15mm 20mm 15mm;
-    @bottom-right {
-      content: counter(page);
-    }
+    margin: 14mm 14mm 14mm 14mm;
   }
 
   * {
@@ -21,8 +18,8 @@
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     color: #1e293b;
-    line-height: 1.6;
-    font-size: 10pt;
+    line-height: 1.5;
+    font-size: 9pt;
     margin: 0;
     padding: 0;
     background: #ffffff;
@@ -32,22 +29,22 @@
   .header-banner {
     background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #4338ca 100%);
     color: #ffffff;
-    padding: 26px 30px;
-    border-radius: 12px;
-    margin-bottom: 24px;
-    border-left: 6px solid #818cf8;
+    padding: 18px 22px;
+    border-radius: 8px;
+    margin-bottom: 14px;
+    border-left: 5px solid #818cf8;
   }
 
   .header-banner h1 {
-    margin: 0 0 6px 0;
-    font-size: 21pt;
+    margin: 0 0 4px 0;
+    font-size: 18pt;
     font-weight: 800;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.4px;
   }
 
   .header-banner .subtitle {
-    margin: 0 0 14px 0;
-    font-size: 11.5pt;
+    margin: 0 0 10px 0;
+    font-size: 10pt;
     color: #c7d2fe;
     font-weight: 400;
   }
@@ -55,20 +52,20 @@
   .meta-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-top: 12px;
-    padding-top: 12px;
+    gap: 8px;
+    margin-top: 8px;
+    padding-top: 8px;
     border-top: 1px solid rgba(255,255,255,0.15);
   }
 
   .meta-item {
-    font-size: 8.5pt;
+    font-size: 8pt;
   }
 
   .meta-item .label {
     color: #a5b4fc;
     text-transform: uppercase;
-    font-size: 7pt;
+    font-size: 6.5pt;
     font-weight: 600;
     letter-spacing: 0.5px;
   }
@@ -82,26 +79,28 @@
   /* Typography */
   h2 {
     color: #0f172a;
-    font-size: 14pt;
+    font-size: 12.5pt;
     font-weight: 700;
-    margin-top: 24px;
-    margin-bottom: 10px;
-    padding-bottom: 5px;
+    margin-top: 14px;
+    margin-bottom: 8px;
+    padding-bottom: 3px;
     border-bottom: 2px solid #e2e8f0;
+    break-after: avoid;
     page-break-after: avoid;
   }
 
   h3 {
     color: #312e81;
-    font-size: 11.5pt;
+    font-size: 10.5pt;
     font-weight: 600;
-    margin-top: 16px;
-    margin-bottom: 8px;
+    margin-top: 12px;
+    margin-bottom: 6px;
+    break-after: avoid;
     page-break-after: avoid;
   }
 
   p {
-    margin: 0 0 10px 0;
+    margin: 0 0 8px 0;
     text-align: justify;
   }
 
@@ -109,13 +108,14 @@
   .callout {
     background: #f8fafc;
     border-left: 4px solid #4f46e5;
-    padding: 12px 16px;
-    border-radius: 0 8px 8px 0;
-    margin: 14px 0;
-    font-size: 9.5pt;
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    margin: 10px 0 12px 0;
+    font-size: 8.5pt;
     border-top: 1px solid #e2e8f0;
     border-right: 1px solid #e2e8f0;
     border-bottom: 1px solid #e2e8f0;
+    break-inside: avoid;
     page-break-inside: avoid;
   }
 
@@ -129,30 +129,31 @@
   .tool-card {
     background: #ffffff;
     border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 14px 18px;
-    margin-bottom: 14px;
+    border-radius: 6px;
+    padding: 11px 14px;
+    margin-bottom: 11px;
+    break-inside: avoid;
     page-break-inside: avoid;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
   }
 
   .tool-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
 
   .tool-name {
-    font-size: 11.5pt;
+    font-size: 10.5pt;
     font-weight: 700;
     color: #1e1b4b;
   }
 
   .tool-badge {
-    padding: 2px 8px;
+    padding: 2px 7px;
     border-radius: 9999px;
-    font-size: 7.5pt;
+    font-size: 7pt;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -162,35 +163,37 @@
   }
 
   .tool-role {
-    font-size: 9pt;
+    font-size: 8.2pt;
     color: #4b5563;
     font-weight: 500;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
 
   /* Tables */
   table {
     width: 100%;
     border-collapse: collapse;
-    margin: 12px 0 16px 0;
-    font-size: 8.5pt;
+    margin: 8px 0 12px 0;
+    font-size: 8pt;
+    break-inside: avoid;
     page-break-inside: avoid;
   }
 
   th {
     background: #1e1b4b;
     color: #ffffff;
-    padding: 8px 10px;
+    padding: 6px 8px;
     font-weight: 600;
     text-align: left;
     border: 1px solid #312e81;
   }
 
   td {
-    padding: 7px 10px;
+    padding: 5px 8px;
     border: 1px solid #e2e8f0;
     color: #334155;
     vertical-align: top;
+    line-height: 1.4;
   }
 
   tr:nth-child(even) td {
@@ -200,10 +203,10 @@
   /* Code & Syntax */
   code {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8pt;
+    font-size: 7.5pt;
     background: #f1f5f9;
-    padding: 2px 5px;
-    border-radius: 4px;
+    padding: 1px 4px;
+    border-radius: 3px;
     color: #0f172a;
   }
 
@@ -211,42 +214,62 @@
     background: #0f172a;
     color: #e2e8f0;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8pt;
-    padding: 12px 16px;
-    border-radius: 6px;
-    line-height: 1.45;
-    margin: 10px 0 14px 0;
-    border-left: 4px solid #818cf8;
+    font-size: 7.5pt;
+    padding: 10px 12px;
+    border-radius: 5px;
+    line-height: 1.4;
+    margin: 6px 0 12px 0;
+    border-left: 3px solid #818cf8;
     white-space: pre-wrap;
+    break-inside: avoid;
     page-break-inside: avoid;
   }
 
   .step-list {
-    margin: 6px 0 10px 0;
-    padding-left: 18px;
+    margin: 4px 0 6px 0;
+    padding-left: 16px;
   }
 
   .step-list li {
-    margin-bottom: 4px;
+    margin-bottom: 3px;
   }
 
   .page-break {
     page-break-before: always;
+    break-before: always;
   }
 
   .footer-note {
-    margin-top: 24px;
-    padding-top: 10px;
+    margin-top: 18px;
+    padding-top: 8px;
     border-top: 1px solid #e2e8f0;
     font-size: 7.5pt;
     color: #64748b;
     text-align: center;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .takeaways-card {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-left: 4px solid #0284c7;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-top: 14px;
+    font-size: 8.5pt;
+  }
+  .takeaways-title {
+    font-weight: 700;
+    color: #0369a1;
+    margin-bottom: 6px;
+    font-size: 9.5pt;
   }
 </style>
 </head>
 <body>
 
-<!-- Header Banner -->
+<!-- ================= PAGE 1 ================= -->
 <div class="header-banner">
   <h1>AI Tools & Usage Documentation</h1>
   <div class="subtitle">AI-Assisted Full-Stack Engineering (AIFSE) Methodology & Tooling Report</div>
@@ -260,8 +283,8 @@
       <div class="value">Autonomous CLI & Composer</div>
     </div>
     <div class="meta-item">
-      <div class="label">Evaluation Standard</div>
-      <div class="value">Ragas / DeepEval Rubrics</div>
+      <div class="label">Verification Standard</div>
+      <div class="value">Pytest & Grounded Citations</div>
     </div>
     <div class="meta-item">
       <div class="label">Production LLM</div>
@@ -270,7 +293,6 @@
   </div>
 </div>
 
-<!-- Section 1 -->
 <h2>1. Engineering Philosophy & Methodology</h2>
 <p>
 The <strong>AI Study Companion</strong> was engineered using an advanced <strong>AI-Assisted Full-Stack Engineering (AIFSE)</strong> framework. Rather than employing AI as an unguided code generation black-box, each tool was assigned a specialized role in an orchestrated workflow: from deep algorithmic research and architectural ideation to autonomous CLI refactoring, type-safe frontend composition, and continuous verification.
@@ -280,10 +302,9 @@ The <strong>AI Study Companion</strong> was engineered using an advanced <strong
   <div class="callout-title">Core Principles of our AI-Assisted Development:</div>
   <strong>1. Evidence-Driven Architectural Choices:</strong> No vector dimensions or database index configurations were chosen arbitrarily; all were benchmarked using deep research AI.<br>
   <strong>2. Strict Verification Gates:</strong> Every AI-assisted contribution was validated through automated type checking (<code>tsc --noEmit</code>), syntax linting (<code>flake8</code>), and 100% test pass rate (33/33 Pytest suite).<br>
-  <strong>3. Zero-Hallucination Production Guardrails:</strong> RAG retrieval precision and faithfulness were benchmarked using standardized evaluation rubrics.
+  <strong>3. Zero-Hallucination Production Guardrails:</strong> RAG retrieval precision and deterministic citation anchors were enforced via strict system prompt contracts.
 </div>
 
-<!-- Section 2 -->
 <h2>2. AI Tool Taxonomy Matrix</h2>
 <p>
 The table below summarizes the comprehensive suite of AI tools utilized during the end-to-end development lifecycle:
@@ -292,8 +313,8 @@ The table below summarizes the comprehensive suite of AI tools utilized during t
 <table>
   <thead>
     <tr>
-      <th style="width: 18%;">Tool &amp; Platform</th>
-      <th style="width: 17%;">Classification</th>
+      <th style="width: 17%;">Tool &amp; Platform</th>
+      <th style="width: 18%;">Classification</th>
       <th style="width: 35%;">Core Responsibilities &amp; Use Cases</th>
       <th style="width: 30%;">Key Engineering Deliverable</th>
     </tr>
@@ -324,12 +345,6 @@ The table below summarizes the comprehensive suite of AI tools utilized during t
       <td>Component layouts, design tokens, responsive cards for concepts and materials.</td>
     </tr>
     <tr>
-      <td><strong>Ragas / DeepEval</strong></td>
-      <td>RAG Evaluation Framework</td>
-      <td>Benchmarking retrieval faithfulness, context precision, answer relevance, and strict citation compliance.</td>
-      <td>Automated test rubrics ensuring &gt;0.90 faithfulness score and zero unsourced claims.</td>
-    </tr>
-    <tr>
       <td><strong>Google Gemini 2.5 Flash</strong></td>
       <td>Production Foundation LLM</td>
       <td>Real-time conversational tutoring, multi-pillar cheat sheet synthesis, and adaptive quiz question formulation.</td>
@@ -344,9 +359,9 @@ The table below summarizes the comprehensive suite of AI tools utilized during t
   </tbody>
 </table>
 
+<!-- ================= PAGE 2 ================= -->
 <div class="page-break"></div>
 
-<!-- Section 3 -->
 <h2>3. Deep-Dive on Tool Utilization &amp; Workflows</h2>
 
 <!-- Tool 1: Claude Code -->
@@ -396,18 +411,19 @@ The table below summarizes the comprehensive suite of AI tools utilized during t
   </ul>
 </div>
 
+<!-- ================= PAGE 3 ================= -->
 <div class="page-break"></div>
 
-<!-- Tool 4: v0 & Ragas -->
+<!-- Tool 4: v0 by Vercel -->
 <div class="tool-card">
   <div class="tool-header">
-    <div class="tool-name">4. v0 by Vercel &amp; Ragas / DeepEval</div>
-    <div class="tool-badge">Design &amp; Quality Evaluation</div>
+    <div class="tool-name">4. v0 by Vercel (Generative UI System)</div>
+    <div class="tool-badge">Design &amp; UI Prototyping</div>
   </div>
-  <div class="tool-role">Rapid design generation and automated RAG quality guardrails.</div>
+  <div class="tool-role">Rapid design generation and interactive UI component prototyping.</div>
   <ul class="step-list">
     <li><strong>v0 UI Prototyping:</strong> Accelerated frontend wireframing by generating initial design tokens for the Concept Mastery Radar Chart, interactive Citation Preview Drawer, and Concept Growth Cards.</li>
-    <li><strong>Ragas Faithfulness Evaluation:</strong> Benchmarked prompt variations to maximize factual grounding, achieving a Faithfulness Score of <strong>0.94</strong> and Context Precision of <strong>0.88</strong> across test academic documents.</li>
+    <li><strong>Component Decomposition:</strong> Converted visual concepts directly into reusable React components structured cleanly with modular Tailwind CSS utility classes.</li>
   </ul>
 </div>
 
@@ -456,8 +472,14 @@ Every substantive claim MUST cite the source in this exact format: [DocumentTitl
 If the provided chunks do not contain sufficient evidence, you MUST explicitly state: "Based on the provided materials, this topic is not covered." Do NOT extrapolate or introduce external knowledge.
 </div>
 
+<!-- ================= PAGE 4 ================= -->
+<div class="page-break"></div>
+
 <!-- Section 5 -->
 <h2>5. Quantitative Development Impact Analysis</h2>
+<p>
+A systematic comparison of traditional development velocity versus AI-assisted full-stack workflows across all key project deliverables:
+</p>
 
 <table>
   <thead>
@@ -508,21 +530,12 @@ If the provided chunks do not contain sufficient evidence, you MUST explicitly s
   </tbody>
 </table>
 
-<div class="page-break"></div>
-
-<!-- Section 6 -->
-<h2>6. Interview &amp; Evaluation Guide: Key Talking Points</h2>
-
-<div class="callout">
-  <div class="callout-title">How to Answer: "How did you use AI in building this project?"</div>
-  <p>
-  <em>"Rather than treating AI as a code-generation shortcut, I utilized a multi-tier AI engineering stack to build an enterprise-ready system:</em>
-  </p>
+<div class="takeaways-card">
+  <div class="takeaways-title">Key Engineering Velocity &amp; Quality Takeaways</div>
   <ul class="step-list">
-    <li><strong>For Architecture &amp; Research:</strong> I used <strong>Perplexity Pro</strong> to evaluate vector indexing algorithms and embedding dimensions, choosing <code>bge-small-en-v1.5</code> at 384 dimensions to optimize memory footprint on free-tier cloud containers (512MB RAM) without sacrificing semantic precision.</li>
-    <li><strong>For Systems Orchestration:</strong> I leveraged <strong>Claude Code</strong> in the terminal for complex asynchronous refactorings, race-condition defense in concurrent document ingestion, and building an automated 33-test Pytest suite with 100% database mock isolation.</li>
-    <li><strong>For Frontend Velocity:</strong> I used <strong>Cursor (Composer)</strong> to engineer the Next.js 14 App Router, write print-optimized CSS for the cheat sheet generator, and enforce strict TypeScript typings.</li>
-    <li><strong>For Verification &amp; Evaluation:</strong> I applied <strong>Ragas</strong> evaluation rubrics to benchmark retrieval faithfulness and context precision, ensuring our production Gemini 2.5 Flash tutor maintains strict citation grounding with zero hallucinations."</li>
+    <li><strong>5.0x Accelerated Delivery:</strong> Reduced end-to-end full-stack development time from 15 business days to 3 intensive days while shipping production-grade architecture.</li>
+    <li><strong>Zero Technical Debt via Automated Verification:</strong> All AI-generated backend routines were continuously gated by 33 unit tests, 100% database mock isolation, and strict flake8/TypeScript linting.</li>
+    <li><strong>Deterministic Production Reliability:</strong> Replaced vague code snippets with strict Pydantic JSON schemas and streaming RAG groundings that eliminate production hallucination risks.</li>
   </ul>
 </div>
 
