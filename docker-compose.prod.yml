@@ -1,0 +1,143 @@
+version: '3.8'
+
+services:
+  # -------------------------------------------------------------
+  # Reverse Proxy (Nginx) - Unified Single Ingress
+  # -------------------------------------------------------------
+  nginx:
+    image: nginx:alpine
+    container_name: study_companion_nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - companion_net
+
+  # -------------------------------------------------------------
+  # PostgreSQL 16 with Vector Extension (pgvector)
+  # -------------------------------------------------------------
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: study_companion_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-ai_study_companion}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - companion_net
+
+  # -------------------------------------------------------------
+  # Redis Cache & Task Broker
+  # -------------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: study_companion_redis
+    restart: always
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - companion_net
+
+  # -------------------------------------------------------------
+  # FastAPI Grounded AI Backend API
+  # -------------------------------------------------------------
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: study_companion_api
+    restart: always
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-ai_study_companion}
+      - REDIS_URL=redis://redis:6379/0
+      - SECRET_KEY=${SECRET_KEY}
+      - ACCESS_TOKEN_EXPIRE_MINUTES=${ACCESS_TOKEN_EXPIRE_MINUTES:-1440}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GEMINI_MODEL=${GEMINI_MODEL:-gemini-2.5-flash}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-BAAI/bge-small-en-v1.5}
+      - EMBEDDING_DIMENSION=${EMBEDDING_DIMENSION:-384}
+      - ENVIRONMENT=production
+    volumes:
+      - backend_storage:/app/storage
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - companion_net
+
+  # -------------------------------------------------------------
+  # Asynchronous Celery Worker
+  # -------------------------------------------------------------
+  celery_worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: study_companion_celery
+    restart: always
+    command: celery -A app.workers.celery_app.celery_app worker --loglevel=info --concurrency=2
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-ai_study_companion}
+      - REDIS_URL=redis://redis:6379/0
+      - SECRET_KEY=${SECRET_KEY}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GEMINI_MODEL=${GEMINI_MODEL:-gemini-2.5-flash}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-BAAI/bge-small-en-v1.5}
+      - EMBEDDING_DIMENSION=${EMBEDDING_DIMENSION:-384}
+    volumes:
+      - backend_storage:/app/storage
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - companion_net
+
+  # -------------------------------------------------------------
+  # Next.js 14 Frontend Client
+  # -------------------------------------------------------------
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=/api/v1
+    container_name: study_companion_web
+    restart: always
+    environment:
+      - NEXT_PUBLIC_API_URL=/api/v1
+      - NODE_ENV=production
+    depends_on:
+      - backend
+    networks:
+      - companion_net
+
+networks:
+  companion_net:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+  backend_storage:

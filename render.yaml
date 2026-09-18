@@ -1,0 +1,70 @@
+services:
+  # -------------------------------------------------------------
+  # 1. FastAPI Grounded AI Backend Service
+  # -------------------------------------------------------------
+  - type: web
+    name: ai-study-companion-backend
+    env: python
+    region: oregon
+    plan: standard
+    buildCommand: "pip install -r backend/requirements.txt"
+    startCommand: "cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ai-study-companion-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: ai-study-companion-redis
+          property: connectionString
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: ENVIRONMENT
+        value: production
+      - key: CORS_ORIGINS
+        value: "https://ai-study-companion-frontend.onrender.com,http://localhost:3000"
+
+  # -------------------------------------------------------------
+  # 2. Next.js 14 Grounded AI Frontend Service
+  # -------------------------------------------------------------
+  - type: web
+    name: ai-study-companion-frontend
+    env: node
+    region: oregon
+    plan: standard
+    buildCommand: "cd frontend && npm install && npm run build"
+    startCommand: "cd frontend && npm run start"
+    envVars:
+      - key: NODE_VERSION
+        value: 20.12.2
+      - key: NEXT_PUBLIC_API_URL
+        value: "https://ai-study-companion-backend.onrender.com/api/v1"
+
+databases:
+  # -------------------------------------------------------------
+  # 3. Managed PostgreSQL with Vector Support (pgvector)
+  # -------------------------------------------------------------
+  - name: ai-study-companion-db
+    databaseName: study_companion
+    user: study_user
+    plan: standard
+    region: oregon
+    postgresMajorVersion: 16
+
+redis:
+  # -------------------------------------------------------------
+  # 4. Managed Redis for Job Queue & Caching
+  # -------------------------------------------------------------
+  - name: ai-study-companion-redis
+    plan: starter
+    region: oregon
+    maxmemoryPolicy: allkeys-lru

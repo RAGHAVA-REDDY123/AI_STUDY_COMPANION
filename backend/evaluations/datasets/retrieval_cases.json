@@ -1,0 +1,98 @@
+[
+  {
+    "case_id": "ret_001",
+    "query": "What is the formulation of gradient descent?",
+    "target_document": "Machine_Learning_Foundations.pdf",
+    "target_keywords": ["gradient", "descent", "learning rate", "weights", "derivative"],
+    "expected_min_similarity": 0.40,
+    "should_have_evidence": true
+  },
+  {
+    "case_id": "ret_002",
+    "query": "How does Principal Component Analysis compute eigenvectors?",
+    "target_document": "Dimensionality_Reduction_PCA.pdf",
+    "target_keywords": ["covariance", "eigenvector", "eigenvalue", "orthogonal", "projection"],
+    "expected_min_similarity": 0.42,
+    "should_have_evidence": true
+  },
+  {
+    "case_id": "ret_003",
+    "query": "Best recipe for baking sourdough bread",
+    "target_document": null,
+    "target_keywords": ["sourdough", "yeast", "flour"],
+    "expected_min_similarity": 0.0,
+    "should_have_evidence": false
+  },
+  {
+    "case_id": "ret_004",
+    "query": "Difference between L1 lasso and L2 ridge regularization",
+    "target_document": "Regularization_Techniques.pdf",
+    "target_keywords": ["L1", "L2", "lasso", "ridge", "penalty", "norm"],
+    "expected_min_similarity": 0.45,
+    "should_have_evidence": true
+  },
+  {
+    "case_id": "ret_005",
+    "query": "Explain ROC curve and AUC score calculations",
+    "target_document": "Model_Evaluation_Metrics.pdf",
+    "target_keywords": ["ROC", "AUC", "false positive rate", "true positive rate", "threshold"],
+    "expected_min_similarity": 0.38,
+    "should_have_evidence": true
+  },
+  {
+    "case_id": "ret_006",
+    "query": "What are transformer self-attention query key value matrices?",
+    "target_document": "Deep_Learning_Architectures.pdf",
+    "target_keywords": ["attention", "query", "key", "value", "softmax", "dimension"],
+    "expected_min_similarity": 0.40,
+    "should_have_evidence": true
+  },
+  {
+    "case_id": "ret_007",
+    "query": "Internal company payroll employee salary spreadsheet",
+    "target_document": null,
+    "target_keywords": ["payroll", "salary", "bonus"],
+    "expected_min_similarity": 0.0,
+    "should_have_evidence": false
+  },
+  {
+    "case_id": "ret_008",
+    "query": "What causes the bias-variance tradeoff in machine learning models?",
+    "target_document": "Machine_Learning_Foundations.pdf",
+    "target_keywords": ["bias", "variance", "underfitting", "overfitting", "error"],
+    "expected_min_similarity": 0.45,
+    "should_have_evidence": true
+  },
+  {
+    "case_id": "ret_009",
+    "query": "Backpropagation chain rule partial derivatives",
+    "target_document": "Deep_Learning_Architectures.pdf",
+    "target_keywords": ["chain rule", "backpropagation", "gradient", "loss", "weights"],
+    "expected_min_similarity": 0.43,
+    "should_have_evidence": true
+  },
+  {
+    "case_id": "ret_010",
+    "query": "History of ancient Roman emperors",
+    "target_document": null,
+    "target_keywords": ["caesar", "augustus", "rome"],
+    "expected_min_similarity": 0.0,
+    "should_have_evidence": false
+  },
+  {
+    "case_id": "ret_011",
+    "query": "K-means clustering algorithm Lloyd heuristic",
+    "target_document": "Dimensionality_Reduction_PCA.pdf",
+    "target_keywords": ["centroid", "clustering", "distance", "convergence", "unsupervised"],
+    "expected_min_similarity": 0.35,
+    "should_have_evidence": true
+  },
+  {
+    "case_id": "ret_012",
+    "query": "Cross-entropy loss function mathematical derivation for multi-class classification",
+    "target_document": "Machine_Learning_Foundations.pdf",
+    "target_keywords": ["cross-entropy", "log likelihood", "softmax", "probability"],
+    "expected_min_similarity": 0.42,
+    "should_have_evidence": true
+  }
+]

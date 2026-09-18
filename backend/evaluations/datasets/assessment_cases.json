@@ -1,0 +1,134 @@
+[
+  {
+    "case_id": "assess_001",
+    "evaluation_type": "mcq_schema_validation",
+    "payload": {
+      "concept_name": "Gradient Descent",
+      "question_type": "MCQ",
+      "difficulty": "EASY",
+      "prompt": "What is the primary hyperparameter controlling step size in gradient descent?",
+      "options": [
+        {"key": "A", "text": "Learning rate"},
+        {"key": "B", "text": "Batch norm momentum"},
+        {"key": "C", "text": "Number of clusters"},
+        {"key": "D", "text": "L1 penalty coefficient"}
+      ],
+      "correct_answer": "A",
+      "explanation": "The learning rate scales the gradient vector at each iteration."
+    },
+    "expected_valid": true,
+    "description": "Standard 4-option MCQ schema validation."
+  },
+  {
+    "case_id": "assess_002",
+    "evaluation_type": "mcq_schema_validation",
+    "payload": {
+      "concept_name": "PCA",
+      "question_type": "MCQ",
+      "difficulty": "MEDIUM",
+      "prompt": "Which option is correct?",
+      "options": [
+        {"key": "A", "text": "Only one option provided"}
+      ],
+      "correct_answer": "A",
+      "explanation": "Missing required 3 or 4 options."
+    },
+    "expected_valid": false,
+    "description": "Malformed MCQ with too few distractors (should fail validation)."
+  },
+  {
+    "case_id": "assess_003",
+    "evaluation_type": "open_ended_grading",
+    "concept_name": "Overfitting",
+    "reference_explanation": "Overfitting happens when a model learns training noise instead of the general distribution, resulting in low training error but high test error.",
+    "student_answer": "Overfitting occurs when the model memorizes the training data including noise, leading to poor generalization and high error on unseen test sets.",
+    "expected_score_min": 0.85,
+    "expected_understanding_min": 0.80,
+    "description": "Accurate student explanation should receive high grade."
+  },
+  {
+    "case_id": "assess_004",
+    "evaluation_type": "open_ended_grading",
+    "concept_name": "L1 Regularization",
+    "reference_explanation": "L1 regularization adds the absolute sum of weights to the loss, driving non-essential coefficients strictly to zero to create sparse feature selection.",
+    "student_answer": "L1 regularization multiplies weights by random numbers to speed up CPU training.",
+    "expected_score_max": 0.35,
+    "expected_accuracy_max": 0.30,
+    "description": "Factual hallucination / erroneous answer must receive low grade."
+  },
+  {
+    "case_id": "assess_005",
+    "evaluation_type": "adaptive_transition",
+    "current_difficulty": "EASY",
+    "recent_answers": [true, true, true],
+    "mastery_score": 85.0,
+    "expected_next_difficulty": "MEDIUM",
+    "description": "Consistent high performance should elevate difficulty from EASY to MEDIUM."
+  },
+  {
+    "case_id": "assess_006",
+    "evaluation_type": "adaptive_transition",
+    "current_difficulty": "HARD",
+    "recent_answers": [false, false],
+    "mastery_score": 35.0,
+    "expected_next_difficulty": "MEDIUM",
+    "description": "Repeated failures should de-escalate difficulty from HARD to MEDIUM."
+  },
+  {
+    "case_id": "assess_007",
+    "evaluation_type": "open_ended_rubric_schema",
+    "rubric_output": {
+      "understanding": 0.90,
+      "accuracy": 0.95,
+      "relevance": 0.90,
+      "reasoning": 0.85,
+      "overall_score": 0.90,
+      "key_concepts_covered": ["eigenvectors", "variance"],
+      "missing_concepts": [],
+      "what_you_understood": "Explained orthogonal projection accurately.",
+      "what_is_missing": "None",
+      "how_to_improve": "Explore kernel PCA next."
+    },
+    "expected_valid": true,
+    "description": "Validates that grading rubric output satisfies required 4-factor dimensions."
+  },
+  {
+    "case_id": "assess_008",
+    "evaluation_type": "open_ended_rubric_schema",
+    "rubric_output": {
+      "overall_score": 0.90
+    },
+    "expected_valid": false,
+    "description": "Missing dimensions in rubric evaluation should be rejected."
+  },
+  {
+    "case_id": "assess_009",
+    "evaluation_type": "mcq_schema_validation",
+    "payload": {
+      "concept_name": "Bias-Variance Tradeoff",
+      "question_type": "MCQ",
+      "difficulty": "HARD",
+      "prompt": "Increasing model capacity typically has what effect on bias and variance?",
+      "options": [
+        {"key": "A", "text": "Decreases bias, increases variance"},
+        {"key": "B", "text": "Increases bias, decreases variance"},
+        {"key": "C", "text": "Decreases both bias and variance"},
+        {"key": "D", "text": "Has no effect on either"}
+      ],
+      "correct_answer": "A",
+      "explanation": "Higher capacity fits complex patterns reducing underfitting (bias) but risks overfitting (variance)."
+    },
+    "expected_valid": true,
+    "description": "Valid hard conceptual question."
+  },
+  {
+    "case_id": "assess_010",
+    "evaluation_type": "open_ended_grading",
+    "concept_name": "Cross Validation",
+    "reference_explanation": "K-fold cross validation partitions dataset into K subsets, training on K-1 and validating on the remaining 1 iteratively to get an unbiased performance estimate.",
+    "student_answer": "Cross validation splits data into folds so every point is tested once, helping prevent overfitting and evaluate generalizeability.",
+    "expected_score_min": 0.75,
+    "expected_understanding_min": 0.75,
+    "description": "Partially complete and accurate student explanation."
+  }
+]

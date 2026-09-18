@@ -1,0 +1,142 @@
+[
+  {
+    "case_id": "rec_001",
+    "learner_state": {
+      "weak_concepts": ["Backpropagation"],
+      "mastery_score": 35.0,
+      "recent_mistakes": ["Omitted chain rule derivation"],
+      "quizzes_taken": 2
+    },
+    "expected_action": "REVIEW_MATERIAL",
+    "expected_target_concept": "Backpropagation",
+    "must_mention": ["Backpropagation", "chain rule"],
+    "is_generic_forbidden": true,
+    "description": "Learner struggling with backpropagation must get material review recommendation targeting backpropagation."
+  },
+  {
+    "case_id": "rec_002",
+    "learner_state": {
+      "weak_concepts": [],
+      "mastery_score": 92.0,
+      "recent_mistakes": [],
+      "quizzes_taken": 5
+    },
+    "expected_action": "TAKE_QUIZ",
+    "expected_target_concept": null,
+    "must_mention": ["advanced", "challenge"],
+    "is_generic_forbidden": false,
+    "description": "High mastery learner should receive recommendation to advance to harder scenarios or quizzes."
+  },
+  {
+    "case_id": "rec_003",
+    "learner_state": {
+      "weak_concepts": ["L1 Regularization", "L2 Regularization"],
+      "mastery_score": 45.0,
+      "recent_mistakes": ["Confused Lasso and Ridge penalties"],
+      "quizzes_taken": 1
+    },
+    "expected_action": "REVIEW_MATERIAL",
+    "expected_target_concept": "L1 Regularization",
+    "must_mention": ["Regularization"],
+    "is_generic_forbidden": true,
+    "description": "Regularization confusion should yield targeted review recommendation."
+  },
+  {
+    "case_id": "rec_004",
+    "learner_state": {
+      "weak_concepts": ["Precision and Recall"],
+      "mastery_score": 50.0,
+      "recent_mistakes": ["Swapped false positives with false negatives"],
+      "quizzes_taken": 3
+    },
+    "expected_action": "REVIEW_MATERIAL",
+    "expected_target_concept": "Precision and Recall",
+    "must_mention": ["Precision", "Recall"],
+    "is_generic_forbidden": true,
+    "description": "Targeted metric formula review recommendation."
+  },
+  {
+    "case_id": "rec_005",
+    "learner_state": {
+      "weak_concepts": [],
+      "mastery_score": 75.0,
+      "recent_mistakes": [],
+      "quizzes_taken": 0
+    },
+    "expected_action": "TAKE_QUIZ",
+    "expected_target_concept": null,
+    "must_mention": ["quiz", "test"],
+    "is_generic_forbidden": false,
+    "description": "Initial learner with no quiz history should be prompted to take an initial baseline quiz."
+  },
+  {
+    "case_id": "rec_006",
+    "learner_state": {
+      "weak_concepts": ["Covariance Matrix Computation in PCA"],
+      "mastery_score": 40.0,
+      "recent_mistakes": ["Dimension mismatch in covariance formulation"],
+      "quizzes_taken": 2
+    },
+    "expected_action": "REVIEW_MATERIAL",
+    "expected_target_concept": "Covariance Matrix Computation in PCA",
+    "must_mention": ["PCA", "Covariance"],
+    "is_generic_forbidden": true,
+    "description": "Mathematical formulation weakness requires targeted study recommendation."
+  },
+  {
+    "case_id": "rec_007",
+    "learner_state": {
+      "weak_concepts": ["Learning Rate Schedules"],
+      "mastery_score": 60.0,
+      "recent_mistakes": ["Oscillation during constant learning rate"],
+      "quizzes_taken": 4
+    },
+    "expected_action": "REVIEW_MATERIAL",
+    "expected_target_concept": "Learning Rate Schedules",
+    "must_mention": ["Learning Rate"],
+    "is_generic_forbidden": true,
+    "description": "Specific optimization behavior recommendation."
+  },
+  {
+    "case_id": "rec_008",
+    "learner_state": {
+      "weak_concepts": [],
+      "mastery_score": 98.0,
+      "recent_mistakes": [],
+      "quizzes_taken": 8
+    },
+    "expected_action": "TAKE_QUIZ",
+    "expected_target_concept": null,
+    "must_mention": ["mastery", "explore"],
+    "is_generic_forbidden": false,
+    "description": "Top-tier learner should explore open-ended tutor discussions or hard quizzes."
+  },
+  {
+    "case_id": "rec_009",
+    "learner_state": {
+      "weak_concepts": ["ROC-AUC Tradeoff"],
+      "mastery_score": 48.0,
+      "recent_mistakes": ["Incorrect threshold sweep interpretation"],
+      "quizzes_taken": 2
+    },
+    "expected_action": "REVIEW_MATERIAL",
+    "expected_target_concept": "ROC-AUC Tradeoff",
+    "must_mention": ["ROC", "AUC"],
+    "is_generic_forbidden": true,
+    "description": "Classification evaluation curve recommendation."
+  },
+  {
+    "case_id": "rec_010",
+    "learner_state": {
+      "weak_concepts": ["Vanishing Gradient in RNNs"],
+      "mastery_score": 38.0,
+      "recent_mistakes": ["Did not recognize long sequences vanishing"],
+      "quizzes_taken": 3
+    },
+    "expected_action": "REVIEW_MATERIAL",
+    "expected_target_concept": "Vanishing Gradient in RNNs",
+    "must_mention": ["Vanishing Gradient"],
+    "is_generic_forbidden": true,
+    "description": "Deep sequence modeling deficit recommendation."
+  }
+]
