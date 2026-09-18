@@ -19,7 +19,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-    timeout-minutes: 20
+    timeout-minutes: 25
 
     steps:
       - name: Checkout Code
@@ -35,10 +35,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Lowercase Repository Name
-        id: repo-name
+      - name: Compute Lowercase Repository Owner
+        id: repo-owner
         run: |
-          echo "owner=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_OUTPUT
+          OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          echo "owner=${OWNER}" >> "$GITHUB_OUTPUT"
 
       # Backend Image Build & Push
       - name: Build and Push Backend Image
@@ -48,8 +49,8 @@ jobs:
           file: ./backend/Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ steps.repo-name.outputs.owner }}/ai-study-companion-backend:latest
-            ghcr.io/${{ steps.repo-name.outputs.owner }}/ai-study-companion-backend:${{ github.sha }}
+            ghcr.io/${{ steps.repo-owner.outputs.owner }}/ai-study-companion-backend:latest
+            ghcr.io/${{ steps.repo-owner.outputs.owner }}/ai-study-companion-backend:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -61,8 +62,8 @@ jobs:
           file: ./frontend/Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ steps.repo-name.outputs.owner }}/ai-study-companion-frontend:latest
-            ghcr.io/${{ steps.repo-name.outputs.owner }}/ai-study-companion-frontend:${{ github.sha }}
+            ghcr.io/${{ steps.repo-owner.outputs.owner }}/ai-study-companion-frontend:latest
+            ghcr.io/${{ steps.repo-owner.outputs.owner }}/ai-study-companion-frontend:${{ github.sha }}
           build-args: |
             NEXT_PUBLIC_API_URL=/api/v1
           cache-from: type=gha

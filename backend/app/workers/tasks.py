@@ -161,6 +161,8 @@ async def _async_process_material(material_id: UUID) -> None:
                     "total_pages": material.total_pages,
                     "chunk_count": material.chunk_count,
                     "character_count": material.character_count
+                }
+            )
             print(f"[Worker] Successfully completed ingestion for '{filename}' -> Status: READY", flush=True)
 
             # Activity Event Logging
