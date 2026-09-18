@@ -6,16 +6,22 @@ from pgvector.asyncpg import register_vector
 
 from app.core.config import settings
 
-# Enforce PostgreSQL + pgvector as the ONLY supported database engine
-if not settings.DATABASE_URL.startswith("postgresql"):
+# Enforce PostgreSQL + pgvector as the ONLY supported database engine, auto-normalizing URL schemes from cloud providers (Render, Neon, Supabase)
+db_url = settings.DATABASE_URL
+if db_url.startswith("postgres://"):
+    db_url = db_url.replace("postgres://", "postgresql+asyncpg://", 1)
+elif db_url.startswith("postgresql://") and not db_url.startswith("postgresql+asyncpg://"):
+    db_url = db_url.replace("postgresql://", "postgresql+asyncpg://", 1)
+
+if not db_url.startswith("postgresql+asyncpg://"):
     raise RuntimeError("PostgreSQL + pgvector is the only supported database. SQLite is not permitted.")
 
 engine = create_async_engine(
-    settings.DATABASE_URL,
+    db_url,
     echo=False,
     future=True,
-    pool_size=20,
-    max_overflow=10,
+    pool_size=10,
+    max_overflow=5,
     pool_recycle=1800,
     pool_pre_ping=True
 )
