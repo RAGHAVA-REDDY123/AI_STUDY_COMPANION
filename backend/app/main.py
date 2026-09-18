@@ -112,8 +112,17 @@ async def trigger_schema_sync():
 @app.get(f"{settings.API_V1_STR}/admin/init-database")
 @app.post(f"{settings.API_V1_STR}/admin/init-database")
 async def trigger_init_database():
-    from app.core.init_db import init_db
-    await init_db()
-    await _apply_schema_updates()
-    return {"status": "success", "message": "Database initialized, pgvector extension enabled, and seed data created successfully"}
+    try:
+        from app.core.init_db import init_db
+        await init_db()
+        await _apply_schema_updates()
+        return {"status": "success", "message": "Database initialized, pgvector extension enabled, and seed data created successfully"}
+    except Exception as e:
+        import traceback
+        return {
+            "status": "error",
+            "error": str(e),
+            "type": type(e).__name__,
+            "traceback": traceback.format_exc()
+        }
 
