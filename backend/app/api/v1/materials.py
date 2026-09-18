@@ -40,9 +40,11 @@ async def list_materials(
 
     return materials
 
+@router.post("/materials/{material_id}/retry", response_model=MaterialOut)
 @router.post("/materials/{material_id}/process", response_model=MaterialOut)
+@router.get("/materials/{material_id}/retry", response_model=MaterialOut)
 @router.get("/materials/{material_id}/process", response_model=MaterialOut)
-async def process_material_now(
+async def retry_material_processing(
     material_id: UUID,
     project: Annotated[Project, Depends(verify_project_access)],
     background_tasks: BackgroundTasks,
@@ -52,6 +54,14 @@ async def process_material_now(
     material = (await db.execute(stmt)).scalar_one_or_none()
     if not material:
         raise HTTPException(status_code=404, detail="Material not found")
+
+    # Reset status and stage so frontend immediately sees QUEUED
+    material.status = MaterialStatus.QUEUED
+    material.current_stage = ProcessingStage.QUEUED
+    material.error_message = None
+    await db.commit()
+    await db.refresh(material)
+
     dispatch_ingestion(material.id, background_tasks)
     return material
 
