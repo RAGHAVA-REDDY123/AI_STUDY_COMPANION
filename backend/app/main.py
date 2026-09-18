@@ -59,6 +59,13 @@ async def lifespan(app: FastAPI):
     # Startup: Ensure storage directory exists
     os.makedirs(settings.STORAGE_DIR, exist_ok=True)
     
+    # Auto-ensure database tables, pgvector extension, and seed admin user
+    try:
+        from app.core.init_db import init_db
+        await init_db()
+    except Exception as e:
+        print(f"[Lifespan Startup Warning] Auto-init db: {e}", flush=True)
+
     # Auto-ensure relational tables and new columns exist
     try:
         await _apply_schema_updates()
@@ -101,3 +108,12 @@ async def health_check():
 async def trigger_schema_sync():
     await _apply_schema_updates()
     return {"status": "success", "message": "Schema synchronized successfully"}
+
+@app.get(f"{settings.API_V1_STR}/admin/init-database")
+@app.post(f"{settings.API_V1_STR}/admin/init-database")
+async def trigger_init_database():
+    from app.core.init_db import init_db
+    await init_db()
+    await _apply_schema_updates()
+    return {"status": "success", "message": "Database initialized, pgvector extension enabled, and seed data created successfully"}
+
