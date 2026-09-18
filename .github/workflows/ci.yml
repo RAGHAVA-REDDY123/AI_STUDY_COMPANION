@@ -70,16 +70,6 @@ jobs:
           # Stop the build if there are Python syntax errors or undefined names
           flake8 backend --count --select=E9,F63,F7,F82 --show-source --statistics
 
-      - name: Initialize Test Database & pgvector Extension
-        working-directory: backend
-        env:
-          DATABASE_URL: postgresql+asyncpg://postgres:postgres_ci_password@127.0.0.1:5432/test_study_companion
-          REDIS_URL: redis://127.0.0.1:6379/0
-          SECRET_KEY: ci_test_secret_key_1234567890_abcdef
-          PYTHONPATH: .
-        run: |
-          python -c "import asyncio; from app.core.init_db import init_db; asyncio.run(init_db())"
-
       - name: Run Pytest Test Suite
         working-directory: backend
         env:

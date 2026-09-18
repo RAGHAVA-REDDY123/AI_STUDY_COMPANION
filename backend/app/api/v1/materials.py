@@ -38,12 +38,6 @@ async def list_materials(
     result = await db.execute(stmt)
     materials = result.scalars().all()
 
-    # Auto-heal: If any material is currently stuck in QUEUED or PROCESSING (e.g. from server restart),
-    # schedule background execution immediately.
-    for m in materials:
-        if m.status in (MaterialStatus.QUEUED, MaterialStatus.PROCESSING):
-            dispatch_ingestion(m.id, background_tasks)
-
     return materials
 
 @router.get("/materials/{material_id}/status", response_model=MaterialOut)
